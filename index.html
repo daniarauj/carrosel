@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="">
+    <h1>SATURN
+        <img src="imagens/saturno.png" alt="">
+    </h1>
+    </div>
+    <h2>Cadastro de livros</h2>
+    <input id="nomeLivro" placeholder="Nome" type="text">
+    <input id="autorLivro" placeholder="Autor" type="text">
+    <input id="anoLivro" placeholder="Ano" type="number">
+    <button onclick="adicionar()">Adicionar Livro</button>
+    <button onclick="mostrarLivros()">Mostrar</button>
+  
+            <ul id="listaLivros"></ul>
+     <div class="carrossel">
+                <img id="carrosselImagem" src="imagens/eueessemeucoracao.png" alt="Imagem do Carrossel">
+                <button id="anterior">Anterior</button>
+                <button id="proximo">Próxima</button>
+    </div>
+    
+    <script>
+        let imgIndice = 0;
+        const IMAGENS=["imagens/eueessemeucoracao.png","imagens/oladofeio.png","imagens/os7maridos.png","imagens/senaofossevoce.png","imagens/todasassuas.png","imagens/verity.png"];
+        const prevButton = document.getElementById('anterior');
+        const nextButton = document.getElementById('proximo');
+
+        var IMG=document.getElementById('carrosselImagem');
+
+        function carregar(){
+            IMG.src=IMAGENS[imgIndice];
+        }
+
+        prevButton.addEventListener('click', () => {
+        if (imgIndice > 0) {
+            --imgIndice;
+        carregar();
+    }
+        });
+
+        nextButton.addEventListener('click', () => {
+        const limite = IMAGENS.length - 1;
+        if (imgIndice < limite) {
+        ++imgIndice;
+        carregar();
+        }
+        });
+        carregar();
+
+        let biblioteca = [];
+
+        function cadastro(nome, autor, ano) {
+            var livro = {
+                titulo: nome,
+                autor: autor,
+                ano: ano
+            };
+            biblioteca.push(livro);
+        }
+
+        function adicionar() {
+            let nome = document.getElementById('nomeLivro').value;
+            let autor = document.getElementById('autorLivro').value;
+            let ano = document.getElementById('anoLivro').value;
+            cadastro(nome, autor, ano);
+        }
+
+        function mostrarLivros() {
+            let listaLivros = document.getElementById('listaLivros');
+            listaLivros.innerHTML = ''; // Limpa a lista antes de mostrar os livros
+
+            for (let i = 0; i < biblioteca.length; i++) {
+                let livro = biblioteca[i];
+                let listItem = document.createElement('li');
+                listItem.textContent = `Título: ${livro.titulo}, Autor: ${livro.autor}, Ano: ${livro.ano}`;
+                listaLivros.appendChild(listItem);
+            }
+        }
+
+        function atualizarInformacoes() {
+            const livroInfo = document.getElementById('livroInfo');
+            const quantidadeLivros = document.getElementById('quantidadeLivros');
+            const carousel = document.getElementById('carousel');
+
+            if (biblioteca.length > 0) {
+                livroInfo.textContent = "Livros cadastrados:";
+                quantidadeLivros.textContent = `Quantidade de livros: ${biblioteca.length}`;
+                carousel.innerHTML = ""; 
+
+                biblioteca.forEach(livro => {
+                    const img = document.createElement('img');
+                    img.src = 'livro1.jpg';
+                    img.alt = livro.titulo;
+                    carousel.appendChild(img);
+                });
+            } else {
+                livroInfo.textContent = "Cadastre um livro";
+                quantidadeLivros.textContent = "Nenhum livro cadastrado ainda.";
+                carousel.innerHTML = ""; 
+            }
+        }
+
+        
+    </script>
+</body>
+</html>
